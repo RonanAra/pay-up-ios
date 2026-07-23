@@ -19,4 +19,8 @@ extension UIView {
             self.alpha = 0
         }
     }
+    
+    func disableAutoresizingMaskTranslation() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
 }
