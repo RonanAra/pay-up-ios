@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class CustomTextFieldView: UIView {
+final class InputTextFieldView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -39,6 +39,7 @@ final class CustomTextFieldView: UIView {
         type: InputTextFieldType = .normal
     ) {
         self.type = type
+        titleLabel.text = title
         super.init(frame: .zero)
         setupView(placeHolder: placeHolder)
     }
@@ -74,11 +75,40 @@ final class CustomTextFieldView: UIView {
         case .normal:
             break
         case .cellphone:
-            // mask Phone number
+            maskPhoneNumber()
         case .cnpj:
-            // mask Cnpj
+            maskCNPJ()
         }
     }
+    
+    private func maskPhoneNumber() {
+            guard let text = textField.text else { return }
+            let cleanPhoneNumber = text.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            let mask = "(##) #####-####"
+            textField.text = applyMask(mask: mask, to: cleanPhoneNumber)
+        }
+        
+        private func maskCNPJ() {
+            guard let text = textField.text else { return }
+            let cleanCNPJ = text.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            let mask = "##.###.###/####-##"
+            textField.text = applyMask(mask: mask, to: cleanCNPJ)
+        }
+        
+        private func applyMask(mask: String, to value: String) -> String {
+            var result = ""
+            var index = value.startIndex
+            for ch in mask where index < value.endIndex {
+                if ch == "#" {
+                    result.append(value[index])
+                    index = value.index(after: index)
+                } else {
+                    result.append(ch)
+                }
+            }
+            
+            return result
+        }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
