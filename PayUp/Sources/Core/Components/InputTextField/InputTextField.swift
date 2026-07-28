@@ -12,7 +12,7 @@ final class InputTextFieldView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        //label.font = Fonts.titleSmall()
+        label.font = Fonts.titleSmall()
         label.textColor = Colors.textHeading
         label.disableAutoresizingMaskTranslation()
         return label
@@ -22,7 +22,7 @@ final class InputTextFieldView: UIView {
         let textField = UITextField()
         textField.backgroundColor = Colors.backgroundPrimary
         textField.textColor = Colors.textLabel
-        //textField.font = Fonts.paragraphMedium()
+        textField.font = Fonts.paragraphMedium()
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 1
         textField.layer.borderColor = Colors.borderPrimary.cgColor
@@ -61,7 +61,7 @@ final class InputTextFieldView: UIView {
             string: placeHolder,
             attributes: [
                 .foregroundColor: Colors.textPlaceholder,
-                //.font: Fonts.paragraphSmall()
+                .font: Fonts.paragraphSmall()
             ])
     }
     
