@@ -4,9 +4,9 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>K2D-Bold.ttf</string>
-		<string>K2D-Regular.ttf</string>
 		<string>K2D-SemiBold.ttf</string>
+		<string>K2D-Regular.ttf</string>
+		<string>K2D-Bold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -25,5 +25,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>background-processing</string>
+	</array>
 </dict>
 </plist>
