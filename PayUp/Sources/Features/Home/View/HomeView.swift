@@ -34,6 +34,12 @@ final class HomeView: UIView {
         return imageView
     }()
     
+    private let daySelectorView: DaySelectorView = {
+        let daySelectorView = DaySelectorView()
+        daySelectorView.translatesAutoresizingMaskIntoConstraints = false
+        return daySelectorView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -47,6 +53,7 @@ final class HomeView: UIView {
         addSubview(logoImage)
         addSubview(bellButton)
         addSubview(profileImage)
+        addSubview(daySelectorView)
         setupConstraints()
     }
     
@@ -66,6 +73,11 @@ final class HomeView: UIView {
             profileImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             profileImage.heightAnchor.constraint(equalToConstant: 44),
             profileImage.widthAnchor.constraint(equalToConstant: 44),
+            
+            daySelectorView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 55),
+            daySelectorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            daySelectorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            daySelectorView.heightAnchor.constraint(equalToConstant: 48)
         ])
     }
 }
