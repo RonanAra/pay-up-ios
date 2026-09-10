@@ -40,6 +40,12 @@ final class HomeView: UIView {
         return daySelectorView
     }()
     
+    private let paymentCardView: PaymentCardView = {
+        let cardView = PaymentCardView()
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        return cardView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -50,11 +56,14 @@ final class HomeView: UIView {
     }
     
     private func setupView() {
+        backgroundColor = Colors.backgroundPrimary
         addSubview(logoImage)
         addSubview(bellButton)
         addSubview(profileImage)
         addSubview(daySelectorView)
+        addSubview(paymentCardView)
         setupConstraints()
+        setupPaymentCard()
     }
     
     private func setupConstraints() {
@@ -77,7 +86,16 @@ final class HomeView: UIView {
             daySelectorView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 55),
             daySelectorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             daySelectorView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            daySelectorView.heightAnchor.constraint(equalToConstant: 48)
+            daySelectorView.heightAnchor.constraint(equalToConstant: 48),
+            
+            paymentCardView.topAnchor.constraint(equalTo: daySelectorView.bottomAnchor, constant: 24),
+            paymentCardView.leadingAnchor.constraint(equalTo: daySelectorView.leadingAnchor),
+            paymentCardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            paymentCardView.heightAnchor.constraint(equalToConstant: 95),
         ])
+    }
+    
+    private func setupPaymentCard() {
+        paymentCardView.configure(name: "Aurora Digital Solutions", value: "R$ 100,00")
     }
 }
