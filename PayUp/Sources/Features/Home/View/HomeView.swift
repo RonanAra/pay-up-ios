@@ -10,6 +10,12 @@ import UIKit
 
 final class HomeView: UIView {
     
+    private let mockCompanies = [
+        CompanyItemModel(name: "Aurora Tech Soluçoes Digitais"),
+        CompanyItemModel(name: "Valtrix Labs"),
+        CompanyItemModel(name: "Rocketseat"),
+    ]
+    
     private let logoImage: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "mainLogo"))
         imageView.contentMode = .scaleAspectFit
@@ -46,7 +52,10 @@ final class HomeView: UIView {
         return cardView
     }()
     
+    private var companyListView: CompanyListView
+    
     override init(frame: CGRect) {
+        self.companyListView = CompanyListView(companies: mockCompanies)
         super.init(frame: frame)
         setupView()
     }
@@ -62,6 +71,10 @@ final class HomeView: UIView {
         addSubview(profileImage)
         addSubview(daySelectorView)
         addSubview(paymentCardView)
+        
+        addSubview(companyListView)
+        companyListView.disableAutoresizingMaskTranslation()
+        
         setupConstraints()
         setupPaymentCard()
     }
@@ -92,6 +105,11 @@ final class HomeView: UIView {
             paymentCardView.leadingAnchor.constraint(equalTo: daySelectorView.leadingAnchor),
             paymentCardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             paymentCardView.heightAnchor.constraint(equalToConstant: 95),
+            
+            companyListView.topAnchor.constraint(equalTo: paymentCardView.bottomAnchor, constant: 24),
+            companyListView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            companyListView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            companyListView.heightAnchor.constraint(equalToConstant: 141),
         ])
     }
     
