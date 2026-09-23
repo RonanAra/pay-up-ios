@@ -19,7 +19,7 @@ final class PaymentCardView: UIView {
     }()
     
     private let iconImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "calendarDollar"))
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Colors.accentOrange
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +28,6 @@ final class PaymentCardView: UIView {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "A Receber"
         label.font = Fonts.paragraphSmall()
         label.textColor = Colors.textParagraph
         label.disableAutoresizingMaskTranslation()
@@ -91,8 +90,10 @@ final class PaymentCardView: UIView {
         ])
     }
     
-    func configure(name: String, value: String) {
-        nameLabel.text = name
-        valueLabel.text = value
+    func configure(with model: PaymentCardModel) {
+        nameLabel.text = model.name
+        subtitleLabel.text = model.type.subtitle
+        valueLabel.text = model.value
+        iconImageView.image = UIImage(named: model.type.iconName)
     }
 }
