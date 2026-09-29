@@ -18,13 +18,32 @@ final class HomeView: UIView {
     
     private let contentView: UIView = {
         let view = UIView()
+        view.layoutMargins = UIEdgeInsets(top: 16, left: 24, bottom: 24, right: 24)
         view.disableAutoresizingMaskTranslation()
         return view
+    }()
+    
+    private lazy var headerStackView: UIStackView = {
+        let spacer = UIView()
+        let stackView = UIStackView(
+            arrangedSubviews: [
+                logoImage, spacer, bellButton, profileImage
+            ]
+        )
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.setCustomSpacing(24, after: bellButton)
+        stackView.disableAutoresizingMaskTranslation()
+        return stackView
     }()
     
     private let logoImage: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "mainLogo"))
         imageView.contentMode = .scaleAspectFit
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalToConstant: 24),
+            imageView.widthAnchor.constraint(equalToConstant: 82),
+        ])
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -33,6 +52,10 @@ final class HomeView: UIView {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "bell"), for: .normal)
         button.tintColor = Colors.textHeading
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 24),
+            button.widthAnchor.constraint(equalToConstant: 24),
+        ])
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -42,6 +65,10 @@ final class HomeView: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 16
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalToConstant: 44),
+            imageView.widthAnchor.constraint(equalToConstant: 44),
+        ])
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -49,6 +76,7 @@ final class HomeView: UIView {
     private let daySelectorView: DaySelectorView = {
         let daySelectorView = DaySelectorView()
         daySelectorView.translatesAutoresizingMaskIntoConstraints = false
+        daySelectorView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         return daySelectorView
     }()
     
@@ -61,12 +89,23 @@ final class HomeView: UIView {
         return label
     }()
     
+    private lazy var todayStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            todayLabel, paymentCardView
+        ])
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.disableAutoresizingMaskTranslation()
+        return stackView
+    }()
+    
     private let addClientButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Adicionar cliente", for: .normal)
         button.titleLabel?.font = Fonts.paragraphMedium()
         button.backgroundColor = Colors.accentBrand
         button.layer.cornerRadius = 8
+        button.heightAnchor.constraint(equalToConstant: 48).isActive = true
         button.disableAutoresizingMaskTranslation()
         return button
     }()
@@ -74,6 +113,7 @@ final class HomeView: UIView {
     private let paymentCardView: PaymentCardView = {
         let cardView = PaymentCardView()
         cardView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.heightAnchor.constraint(equalToConstant: 95).isActive = true
         return cardView
     }()
     
@@ -83,8 +123,18 @@ final class HomeView: UIView {
             CompanyItemModel(name: "Valtrix Labs"),
             CompanyItemModel(name: "Rocketseat"),
         ])
+        view.heightAnchor.constraint(equalToConstant: 141).isActive = true
         view.disableAutoresizingMaskTranslation()
         return view
+    }()
+    
+    private lazy var companySectionStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            UIView(), viewAllButton
+        ])
+        stackView.axis = .horizontal
+        stackView.disableAutoresizingMaskTranslation()
+        return stackView
     }()
     
     private let transactionLabel: UILabel = {
@@ -108,6 +158,7 @@ final class HomeView: UIView {
     private let transactionCardView: PaymentCardView = {
         let cardView = PaymentCardView()
         cardView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.heightAnchor.constraint(equalToConstant: 95).isActive = true
         return cardView
     }()
     
@@ -117,6 +168,7 @@ final class HomeView: UIView {
         button.titleLabel?.font = Fonts.titleSmall()
         button.setTitleColor(Colors.accentBrand, for: .normal)
         button.disableAutoresizingMaskTranslation()
+        button.heightAnchor.constraint(equalToConstant: 24).isActive = true
         return button
     }()
     
@@ -125,14 +177,46 @@ final class HomeView: UIView {
         button.setTitle("Filtrar", for: .normal)
         button.titleLabel?.font = Fonts.paragraphMedium()
         button.setTitleColor(Colors.textHeading, for: .normal)
+        button.setImage(UIImage(systemName: "line.horizontal.3.decrease.circle"), for: .normal)
         button.tintColor = Colors.textHeading
         button.backgroundColor = Colors.backgroundSecondary
         button.layer.cornerRadius = 6
         button.semanticContentAttribute = .forceRightToLeft
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -4)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
         button.disableAutoresizingMaskTranslation()
         return button
+    }()
+    
+    private lazy var transactionHeaderStack: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            transactionLabel, UIView(), filterButton
+        ])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.disableAutoresizingMaskTranslation()
+        return stackView
+    }()
+    
+    private lazy var mainStack: UIStackView = {
+        let stackView = UIStackView(
+            arrangedSubviews: [
+                headerStackView,
+                daySelectorView,
+                todayStackView,
+                addClientButton,
+                companySectionStackView,
+                companyListView,
+                transactionHeaderStack,
+                transactionDateLabel,
+                transactionCardView
+            ]
+        )
+        stackView.axis = .vertical
+        stackView.spacing = 24
+        stackView.disableAutoresizingMaskTranslation()
+        return stackView
     }()
     
     override init(frame: CGRect) {
@@ -149,6 +233,7 @@ final class HomeView: UIView {
         
         addSubview(scrollView)
         scrollView.addSubview(contentView)
+        contentView.addSubview(mainStack)
         
         setupConstraints()
         setupPaymentCard()
@@ -165,88 +250,13 @@ final class HomeView: UIView {
             contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            
+            mainStack.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            mainStack.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
+            mainStack.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            mainStack.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
         ])
-        setupViewsOnScroll()
-        
-        NSLayoutConstraint.activate([
-            logoImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            logoImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            logoImage.heightAnchor.constraint(equalToConstant: 24),
-            logoImage.widthAnchor.constraint(equalToConstant: 82),
-            
-            profileImage.centerYAnchor.constraint(equalTo: logoImage.centerYAnchor),
-            profileImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            profileImage.heightAnchor.constraint(equalToConstant: 44),
-            profileImage.widthAnchor.constraint(equalToConstant: 44),
-            
-            bellButton.centerYAnchor.constraint(equalTo: logoImage.centerYAnchor),
-            bellButton.trailingAnchor.constraint(equalTo: profileImage.leadingAnchor, constant: -24),
-            bellButton.heightAnchor.constraint(equalToConstant: 24),
-            bellButton.widthAnchor.constraint(equalToConstant: 24),
-            
-            daySelectorView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 55),
-            daySelectorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            daySelectorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            daySelectorView.heightAnchor.constraint(equalToConstant: 48),
-            
-            todayLabel.topAnchor.constraint(equalTo: daySelectorView.bottomAnchor, constant: 24),
-            todayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            
-            paymentCardView.topAnchor.constraint(equalTo: todayLabel.bottomAnchor, constant: 8),
-            paymentCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            paymentCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            paymentCardView.heightAnchor.constraint(equalToConstant: 95),
-            
-            addClientButton.topAnchor.constraint(equalTo: paymentCardView.bottomAnchor, constant: 16),
-            addClientButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            addClientButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            addClientButton.heightAnchor.constraint(equalToConstant: 48),
-            
-            viewAllButton.topAnchor.constraint(equalTo: addClientButton.bottomAnchor, constant: 24),
-            viewAllButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            viewAllButton.heightAnchor.constraint(equalToConstant: 24),
-            
-            companyListView.topAnchor.constraint(equalTo: viewAllButton.bottomAnchor, constant: 16),
-            companyListView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            companyListView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            companyListView.heightAnchor.constraint(equalToConstant: 141),
-            
-            transactionLabel.topAnchor.constraint(equalTo: companyListView.bottomAnchor, constant: 24),
-            transactionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            
-            filterButton.centerYAnchor.constraint(equalTo: transactionLabel.centerYAnchor),
-            filterButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            filterButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            transactionDateLabel.topAnchor.constraint(equalTo: transactionLabel.bottomAnchor, constant: 16),
-            transactionDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            
-            transactionCardView.topAnchor.constraint(equalTo: transactionDateLabel.bottomAnchor, constant: 8),
-            transactionCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            transactionCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            transactionCardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
-            transactionCardView.heightAnchor.constraint(equalToConstant: 95)
-        ])
-    }
-    
-    private func setupViewsOnScroll() {
-        let views: [UIView] = [
-            logoImage,
-            bellButton,
-            profileImage,
-            daySelectorView,
-            todayLabel,
-            paymentCardView,
-            addClientButton,
-            viewAllButton,
-            companyListView,
-            transactionLabel,
-            transactionDateLabel,
-            filterButton,
-            transactionCardView
-        ]
-        views.forEach { contentView.addSubview($0) }
     }
     
     private func setupPaymentCard() {
