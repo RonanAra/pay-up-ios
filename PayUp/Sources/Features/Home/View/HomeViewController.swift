@@ -18,5 +18,16 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCallForAddClient()
+    }
+    
+    private func setupCallForAddClient() {
+        homeView.onTapClient = { [ weak self ] in
+            guard let self else { return }
+            let formViewController = ClientFormViewController(mode: .add)
+            formViewController.modalTransitionStyle = .coverVertical
+            formViewController.modalPresentationStyle = .overFullScreen
+            self.present(formViewController, animated: true)
+        }
     }
 }

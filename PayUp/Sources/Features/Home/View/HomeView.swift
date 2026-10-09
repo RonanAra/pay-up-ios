@@ -10,6 +10,8 @@ import UIKit
 
 final class HomeView: UIView {
     
+    var onTapClient: (() -> Void)?
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.disableAutoresizingMaskTranslation()
@@ -102,10 +104,12 @@ final class HomeView: UIView {
     private let addClientButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Adicionar cliente", for: .normal)
+        button.setTitleColor(Colors.textInvert, for: .normal)
         button.titleLabel?.font = Fonts.paragraphMedium()
         button.backgroundColor = Colors.accentBrand
         button.layer.cornerRadius = 8
         button.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        button.addTarget(self, action: #selector(didTapClient), for: .touchUpInside)
         button.disableAutoresizingMaskTranslation()
         return button
     }()
@@ -275,5 +279,10 @@ final class HomeView: UIView {
                 value: "R$ 450,00"
             )
         )
+    }
+    
+    @objc
+    private func didTapClient() {
+        onTapClient?()
     }
 }
