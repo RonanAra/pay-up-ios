@@ -68,6 +68,8 @@ final class ClientFormView: UIView {
     private lazy var phoneField = InputTextFieldView(title: "Telefone", placeHolder: "Ex: (31) 91234-5678", type: .cellphone)
     private lazy var cnpjField = InputTextFieldView(title: "CNPJ", placeHolder: "Ex: 12.345.678/0001-90", type: .cnpj)
     private lazy var addressField = InputTextFieldView(title: "Endereço", placeHolder: "Ex: Rua das Flores, 123, Centro", type: .normal)
+    private lazy var valueField = CurrencyTextField(title: "Valor", placeholder: "R$ 0,00")
+        private lazy var dateField = DatePickerTextField(title: "Data de cobrança", placeholder: "DD/MM/AAAA")
     
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -125,8 +127,44 @@ final class ClientFormView: UIView {
     }
     
     private func setupStack() {
+        let scrollView = UIScrollView()
+        scrollView.disableAutoresizingMaskTranslation()
+        scrollView.showsVerticalScrollIndicator = false
+        
+        let recurringContainer = UIView()
+        let recurringStack = UIStackView(arrangedSubviews: [
+            recurringLabel,
+            recurringSwitch,
+            frequencyButton
+        ])
+        recurringStack.axis = .horizontal
+        recurringStack.spacing = 8
+        recurringStack.alignment = .center
+        recurringStack.disableAutoresizingMaskTranslation()
+        recurringContainer.addSubview(recurringStack)
+        
+        let buttonStack = UIStackView()
+        if mode == .edit {
+            buttonStack.addArrangedSubview(deleteButton)
+        }
+        buttonStack.addArrangedSubview(cancelButton)
+        buttonStack.addArrangedSubview(saveButton)
+        buttonStack.axis = .horizontal
+        buttonStack.spacing = 12
+        buttonStack.distribution = .fillEqually
+        
         let formStack = UIStackView(arrangedSubviews: [
-            titleLabel
+            titleLabel,
+            valueField,
+            dateField,
+            recurringContainer,
+            //daySelectorView,
+            clientNameField,
+            contactField,
+            phoneField,
+            cnpjField,
+            addressField,
+            buttonStack
         ])
         
         formStack.axis = .vertical
@@ -141,6 +179,13 @@ final class ClientFormView: UIView {
             formStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             formStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             formStack.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            recurringStack.topAnchor.constraint(equalTo: recurringContainer.topAnchor),
+            recurringStack.leadingAnchor.constraint(equalTo: recurringContainer.leadingAnchor),
+            recurringStack.trailingAnchor.constraint(equalTo: recurringContainer.trailingAnchor),
+            recurringStack.bottomAnchor.constraint(equalTo: recurringContainer.bottomAnchor)
         ])
     }
 }
