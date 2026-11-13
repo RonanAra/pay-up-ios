@@ -14,4 +14,27 @@ extension UITextField {
         self.leftView = paddingView
         self.leftViewMode = .always
     }
+    
+    func maskDate() {
+        let cleanDate = (text ?? "")
+            .components(separatedBy: CharacterSet.decimalDigits.inverted)
+            .joined()
+        let mask = "##/##/####"
+        self.text = applyMask(mask: mask, to: cleanDate)
+    }
+    
+    private func applyMask(mask: String, to value: String) -> String {
+        var result = ""
+        var index = value.startIndex
+        for ch in mask where index < value.endIndex {
+            if ch == "#" {
+                result.append(value[index])
+                index = value.index(after: index)
+            } else {
+                result.append(ch)
+            }
+        }
+        
+        return result
+    }
 }

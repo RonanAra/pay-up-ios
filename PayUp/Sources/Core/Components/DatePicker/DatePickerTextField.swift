@@ -53,6 +53,7 @@ final class DatePickerTextField: UIView {
             string: placeholder,
             attributes: [.foregroundColor: Colors.textPlaceholder]
         )
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         textField.rightView = calendarButton
         setupStack()
         
@@ -118,5 +119,10 @@ final class DatePickerTextField: UIView {
     
     func setText(_ text: String) {
         textField.text = text
+    }
+    
+    @objc
+    private func textDidChange() {
+        textField.maskDate()
     }
 }
