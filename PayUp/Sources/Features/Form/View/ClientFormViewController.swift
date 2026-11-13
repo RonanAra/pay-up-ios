@@ -39,7 +39,7 @@ final class ClientFormViewController: UIViewController {
         
         hasInitializedPosition = true
         contentView.containerView.transform = CGAffineTransform(translationX: 0,
-                                                                 y: contentView.containerView.bounds.height)
+                                                                y: contentView.containerView.bounds.height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,6 +52,24 @@ final class ClientFormViewController: UIViewController {
 
 extension ClientFormViewController: ClientFormViewDelegate {
     func didTapCancel() {
+        dismiss(animated: true)
+    }
+    
+    func didTapSave() {
+        dismiss(animated: true)
+        // TODO: Implementar lógica de salvar
+    }
+    
+    func didTapDelete() {
+        let alert = UIAlertController(title: "Excluir cliente",
+                                      message: "Tem certeza que deseja excluir este cliente?",
+                                      preferredStyle: .alert)
         
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Excluir", style: .destructive) { _ in
+            // TODO: Implementar lógica de deletar
+            self.dismiss(animated: true)
+        })
+        present(alert, animated: true)
     }
 }
