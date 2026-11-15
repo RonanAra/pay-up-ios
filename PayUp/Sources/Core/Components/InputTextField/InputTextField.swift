@@ -123,4 +123,12 @@ final class InputTextFieldView: UIView {
             textField.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+    
+    func setText(_ text: String) {
+        self.textField.text = text
+    }
+    
+    func getText() -> String? {
+        return self.textField.text
+    }
 }

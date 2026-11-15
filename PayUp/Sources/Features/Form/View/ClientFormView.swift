@@ -271,6 +271,34 @@ final class ClientFormView: UIView {
         }
     }
     
+    func getClientData() -> Client? {
+        guard let name = clientNameField.getText(), !name.isEmpty,
+              let contact = contactField.getText(), !contact.isEmpty,
+              let phone = phoneField.getText(), !phone.isEmpty,
+              let cnpj = cnpjField.getText(), !cnpj.isEmpty,
+              let address = addressField.getText(), !address.isEmpty,
+              let dueDate = dateField.getText(), !dueDate.isEmpty
+        else {
+            return nil
+        }
+        
+        let value = valueField.getValue()
+        let selectedDay = daySelectorView.getSelectedDay()
+        
+        return Client(
+            name: name,
+            contact: contact,
+            phone: phone,
+            cnpj: cnpj,
+            address: address,
+            value: value,
+            dueDate: dueDate,
+            isRecurring: recurringSwitch.isOn,
+            frequency: selectedFrequency,
+            selectedDay: selectedDay
+        )
+    }
+    
     private func populateFieldsForEditMode() {
         
     }
