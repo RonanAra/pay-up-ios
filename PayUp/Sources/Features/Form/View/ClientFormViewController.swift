@@ -11,6 +11,7 @@ final class ClientFormViewController: UIViewController {
     
     private let mode: ClientFormMode
     private var hasInitializedPosition = false
+    private let viewModel = ClientFormViewModel()
     private lazy var contentView = ClientFormView(mode: mode)
     
     init(mode: ClientFormMode) {
@@ -57,7 +58,25 @@ extension ClientFormViewController: ClientFormViewDelegate {
     
     func didTapSave() {
         dismiss(animated: true)
-        // TODO: Implementar lógica de salvar
+        guard let client = contentView.getClientData() else {
+            showAlert(title: "ERRO", message: "Dados inseridos inválidos. Verifique os campos e tente novamente.")
+            return
+        }
+        
+        let success = viewModel.saveClient(client: client)
+        
+        if success {
+            dismiss(animated: true)
+        } else {
+            showAlert(title: "Erro", message: "Não foi possível salvar o cliente, erro ao inserir no banco de dados.")
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     func didTapDelete() {

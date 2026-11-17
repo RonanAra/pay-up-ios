@@ -9,7 +9,7 @@ final class ClientFormViewModel {
     
     private let databaseManager = DatabaseManager.shared
     
-    func saveClient(client: Client) {
+    func saveClient(client: Client) -> Bool {
         databaseManager.saveClient(client)
     }
     
