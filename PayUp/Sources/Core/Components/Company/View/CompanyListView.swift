@@ -48,6 +48,11 @@ final class CompanyListView: UIView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
+    
+    func updateCompanies(_ companies: [CompanyItemModel]) {
+        viewModel.updateCompanies(companies)
+        collectionView.reloadData()
+    }
 }
 
 extension CompanyListView: UICollectionViewDataSource {

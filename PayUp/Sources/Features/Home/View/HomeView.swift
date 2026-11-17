@@ -122,11 +122,7 @@ final class HomeView: UIView {
     }()
     
     private var companyListView: CompanyListView = {
-        let view = CompanyListView(companies: [
-            CompanyItemModel(name: "Aurora Tech Soluçoes Digitais"),
-            CompanyItemModel(name: "Valtrix Labs"),
-            CompanyItemModel(name: "Rocketseat"),
-        ])
+        let view = CompanyListView(companies: [])
         view.heightAnchor.constraint(equalToConstant: 141).isActive = true
         view.disableAutoresizingMaskTranslation()
         return view
@@ -226,6 +222,7 @@ final class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupContent()
     }
     
     required init?(coder: NSCoder) {
@@ -240,7 +237,6 @@ final class HomeView: UIView {
         contentView.addSubview(mainStack)
         
         setupConstraints()
-        setupPaymentCard()
     }
     
     private func setupConstraints() {
@@ -284,5 +280,33 @@ final class HomeView: UIView {
     @objc
     private func didTapClient() {
         onTapClient?()
+    }
+    
+    // MARK: - Content
+    
+    private func setupContent() {
+        //        paymentCardView.configure(with: .init(type: .incoming,
+        //                                              name: "Aurora Tech Soluções Digitais",
+        //                                              value: "R$ 250,00"))
+        
+        transactionCardView.configure(with: .init(type: .transaction,
+                                                  name: "Duna Sports",
+                                                  value: "R$ 450,00"))
+    }
+    
+    // MARK: - Public Methods
+    
+    func updateCompanyList(companies: [CompanyItemModel]) {
+        companyListView.updateCompanies(companies)
+    }
+    
+    func updateTodayValue(value: String) {
+        paymentCardView.configure(
+            with: .init(
+                type: .incoming,
+                name: "Recebimentos de hoje",
+                value: value
+            )
+        )
     }
 }
