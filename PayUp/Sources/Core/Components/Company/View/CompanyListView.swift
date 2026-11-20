@@ -12,6 +12,7 @@ import UIKit
 final class CompanyListView: UIView {
     
     private let viewModel: CompanyViewModel
+    weak var delegate: CompanyListViewDelegate?
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -86,5 +87,10 @@ extension CompanyListView: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         return CGSize(width: 128, height: 141)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCompany = viewModel.companies[indexPath.item]
+        delegate?.didSelectCompany(selectedCompany)
     }
 }

@@ -259,6 +259,10 @@ final class HomeView: UIView {
         ])
     }
     
+    func setCompanyListDelegate(_ delegate: CompanyListViewDelegate) {
+        companyListView.delegate = delegate
+    }
+    
     private func setupPaymentCard() {
         paymentCardView.configure(
             with: .init(

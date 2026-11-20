@@ -21,6 +21,7 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         setupCallForAddClient()
         loadData()
+        setupCompanyListDelegate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,5 +46,23 @@ final class HomeViewController: UIViewController {
         
         homeView.updateCompanyList(companies: clients)
         homeView.updateTodayValue(value: formattedValue)
+    }
+    
+    private func setupCompanyListDelegate() {
+        homeView.setCompanyListDelegate(self)
+    }
+}
+
+extension HomeViewController: CompanyListViewDelegate {
+    func didSelectCompany(_ company: CompanyItemModel) {
+        guard let client = viewModel.getClientByName(company.name) else {
+            print("cliente não encontrado")
+            return
+        }
+        
+        let formViewController = ClientFormViewController(mode: .edit(client))
+        formViewController.modalTransitionStyle = .coverVertical
+        formViewController.modalPresentationStyle = .overFullScreen
+        self.present(formViewController, animated: true)
     }
 }
