@@ -66,6 +66,7 @@ extension ClientFormViewController: ClientFormViewDelegate {
         let success = viewModel.saveClient(client: client)
         
         if success {
+            NotificationCenter.default.post(name: .clientDataChanged, object: nil)
             dismiss(animated: true)
         } else {
             showAlert(title: "Erro", message: "Não foi possível salvar o cliente, erro ao inserir no banco de dados.")
@@ -91,4 +92,8 @@ extension ClientFormViewController: ClientFormViewDelegate {
         })
         present(alert, animated: true)
     }
+}
+
+extension Notification.Name {
+    static let clientDataChanged = Notification.Name("clientDataChanged")
 }
