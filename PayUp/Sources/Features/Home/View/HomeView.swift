@@ -155,11 +155,12 @@ final class HomeView: UIView {
         return label
     }()
     
-    private let transactionCardView: PaymentCardView = {
-        let cardView = PaymentCardView()
-        cardView.translatesAutoresizingMaskIntoConstraints = false
-        cardView.heightAnchor.constraint(equalToConstant: 95).isActive = true
-        return cardView
+    private let transactionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 12
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private let viewAllButton: UIButton = {
@@ -210,7 +211,7 @@ final class HomeView: UIView {
                 companyListView,
                 transactionHeaderStack,
                 transactionDateLabel,
-                transactionCardView
+                transactionStackView
             ]
         )
         stackView.axis = .vertical
@@ -222,7 +223,6 @@ final class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        setupContent()
     }
     
     required init?(coder: NSCoder) {
@@ -263,24 +263,6 @@ final class HomeView: UIView {
         companyListView.delegate = delegate
     }
     
-    private func setupPaymentCard() {
-        paymentCardView.configure(
-            with: .init(
-                type: .incoming,
-                name: "Aurora Digital Solutions",
-                value: "R$ 100,00"
-            )
-        )
-        
-        transactionCardView.configure(
-            with: .init(
-                type: .transaction,
-                name: "Duna Sports",
-                value: "R$ 450,00"
-            )
-        )
-    }
-    
     @objc
     private func didTapClient() {
         onTapClient?()
@@ -288,14 +270,28 @@ final class HomeView: UIView {
     
     // MARK: - Content
     
-    private func setupContent() {
-        //        paymentCardView.configure(with: .init(type: .incoming,
-        //                                              name: "Aurora Tech Soluções Digitais",
-        //                                              value: "R$ 250,00"))
+    func updateTransactions(_ transactions: [PaymentCardModel]) {
+        transactionStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        transactionCardView.configure(with: .init(type: .transaction,
-                                                  name: "Duna Sports",
-                                                  value: "R$ 450,00"))
+        if transactions.isEmpty {
+            let emptyLabel = UILabel()
+            emptyLabel.text = "Nenhuma cobrança para hoje"
+            emptyLabel.font = Fonts.paragraphMedium()
+            emptyLabel.textColor = Colors.textParagraph
+            emptyLabel.textAlignment = .center
+            transactionStackView.addArrangedSubview(emptyLabel)
+        } else {
+            for transaction in transactions {
+                let cardView = PaymentCardView()
+                cardView.configure(with: transaction)
+                cardView.heightAnchor.constraint(equalToConstant: 95).isActive = true
+                transactionStackView.addArrangedSubview(cardView)
+            }
+        }
+    }
+    
+    func updateTransactionDate(_ dateString: String) {
+        transactionDateLabel.text = dateString
     }
     
     // MARK: - Public Methods
