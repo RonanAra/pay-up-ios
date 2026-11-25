@@ -309,4 +309,8 @@ final class HomeView: UIView {
             )
         )
     }
+    
+    func setDaySelectorDelegate(_ delegate: DaySelectorViewDelegate) {
+        daySelectorView.delegate = delegate
+    }
 }
