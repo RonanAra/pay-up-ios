@@ -11,6 +11,7 @@ import UIKit
 final class HomeView: UIView {
     
     var onTapClient: (() -> Void)?
+    var onTapFilter: (() -> Void)?
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -186,6 +187,7 @@ final class HomeView: UIView {
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -4)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.addTarget(self, action: #selector(didTapFilter), for: .touchUpInside)
         button.disableAutoresizingMaskTranslation()
         return button
     }()
@@ -266,6 +268,10 @@ final class HomeView: UIView {
     @objc
     private func didTapClient() {
         onTapClient?()
+    }
+    
+    @objc private func didTapFilter() {
+        onTapFilter?()
     }
     
     // MARK: - Content
